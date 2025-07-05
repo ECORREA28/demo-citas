@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Citas Médicas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; background: #f2f2f2; }
+        h1 { color: #004080; }
+        form, .citas { background: white; padding: 1em; border-radius: 8px; margin-bottom: 2em; }
+        label { display: block; margin-top: 1em; }
+        input, select { width: 100%; padding: 0.5em; margin-top: 0.2em; }
+        button { margin-top: 1em; background-color: #004080; color: white; padding: 0.5em 1em; border: none; border-radius: 4px; cursor: pointer; }
+        .cita { background: #e6f0ff; padding: 1em; margin-top: 1em; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <h1>Gestión de Citas Médicas</h1>
+    <form id="formulario">
+        <label>Nombre del paciente:
+            <input type="text" id="nombre" required>
+        </label>
+        <label>Especialidad:
+            <select id="especialidad">
+                <option>Medicina General</option>
+                <option>Pediatría</option>
+                <option>Odontología</option>
+            </select>
+        </label>
+        <label>Médico:
+            <input type="text" id="medico" value="Dra. López" required>
+        </label>
+        <label>Fecha:
+            <input type="date" id="fecha" required>
+        </label>
+        <label>Hora:
+            <input type="time" id="hora" required>
+        </label>
+        <button type="submit">Agendar Cita</button>
+    </form>
+    <div class="citas">
+        <h2>Citas Registradas</h2>
+        <div id="listaCitas"></div>
+    </div>
+    <script>
+        const formulario = document.getElementById('formulario');
+        const listaCitas = document.getElementById('listaCitas');
+
+        formulario.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const especialidad = document.getElementById('especialidad').value;
+            const medico = document.getElementById('medico').value;
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+
+            const citaHTML = `
+                <div class="cita">
+                    <strong>Paciente:</strong> ${nombre}<br>
+                    <strong>Especialidad:</strong> ${especialidad}<br>
+                    <strong>Médico:</strong> ${medico}<br>
+                    <strong>Fecha:</strong> ${fecha}<br>
+                    <strong>Hora:</strong> ${hora}<br>
+                    <strong>Estado:</strong> Confirmada
+                </div>`;
+
+            listaCitas.innerHTML += citaHTML;
+            formulario.reset();
+        });
+    </script>
+</body>
+</html>
