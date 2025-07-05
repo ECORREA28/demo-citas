@@ -3,51 +3,89 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Citas Médicas</title>
+    <title>Plataforma de Citas Médicas</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 2em; background: #f2f2f2; }
-        h1 { color: #004080; }
-        form, .citas { background: white; padding: 1em; border-radius: 8px; margin-bottom: 2em; }
+        body { font-family: Arial, sans-serif; margin: 2em; background-color: #f2f2f2; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 2em; border-radius: 10px; }
+        h1, h2 { color: #004080; }
         label { display: block; margin-top: 1em; }
-        input, select { width: 100%; padding: 0.5em; margin-top: 0.2em; }
-        button { margin-top: 1em; background-color: #004080; color: white; padding: 0.5em 1em; border: none; border-radius: 4px; cursor: pointer; }
-        .cita { background: #e6f0ff; padding: 1em; margin-top: 1em; border-radius: 6px; }
+        input, select, button { width: 100%; padding: 0.5em; margin-top: 0.5em; border-radius: 5px; border: 1px solid #ccc; }
+        button { background-color: #004080; color: white; border: none; cursor: pointer; }
+        .cita { background-color: #e6f0ff; padding: 1em; border-radius: 8px; margin-top: 1em; }
+        #login, #registroCita, #panelCitas { display: none; }
     </style>
 </head>
 <body>
-    <h1>Gestión de Citas Médicas</h1>
-    <form id="formulario">
-        <label>Nombre del paciente:
-            <input type="text" id="nombre" required>
-        </label>
-        <label>Especialidad:
-            <select id="especialidad">
-                <option>Medicina General</option>
-                <option>Pediatría</option>
-                <option>Odontología</option>
-            </select>
-        </label>
-        <label>Médico:
-            <input type="text" id="medico" value="Dra. López" required>
-        </label>
-        <label>Fecha:
-            <input type="date" id="fecha" required>
-        </label>
-        <label>Hora:
-            <input type="time" id="hora" required>
-        </label>
-        <button type="submit">Agendar Cita</button>
-    </form>
-    <div class="citas">
-        <h2>Citas Registradas</h2>
-        <div id="listaCitas"></div>
+    <div class="container">
+        <h1>Gestión de Citas Médicas</h1>
+
+        <div id="login">
+            <h2>Inicio de sesión</h2>
+            <label>Correo electrónico:
+                <input type="email" id="correo">
+            </label>
+            <label>Contraseña:
+                <input type="password" id="password">
+            </label>
+            <button onclick="iniciarSesion()">Ingresar</button>
+        </div>
+
+        <div id="registroCita">
+            <h2>Agendar Cita</h2>
+            <label>Nombre del paciente:
+                <input type="text" id="nombre" required>
+            </label>
+            <label>Especialidad:
+                <select id="especialidad">
+                    <option>Medicina General</option>
+                    <option>Pediatría</option>
+                    <option>Odontología</option>
+                </select>
+            </label>
+            <label>Médico:
+                <input type="text" id="medico" value="Dra. López">
+            </label>
+            <label>Fecha:
+                <input type="date" id="fecha">
+            </label>
+            <label>Hora:
+                <input type="time" id="hora">
+            </label>
+            <button onclick="agendarCita()">Agendar</button>
+        </div>
+
+        <div id="panelCitas">
+            <h2>Citas Registradas</h2>
+            <div id="listaCitas"></div>
+        </div>
     </div>
+
     <script>
-        const formulario = document.getElementById('formulario');
+        const loginSection = document.getElementById('login');
+        const registroCitaSection = document.getElementById('registroCita');
+        const panelCitasSection = document.getElementById('panelCitas');
         const listaCitas = document.getElementById('listaCitas');
 
-        formulario.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Mostrar login al cargar
+        window.onload = () => {
+            loginSection.style.display = 'block';
+        };
+
+        function iniciarSesion() {
+            const correo = document.getElementById('correo').value;
+            const password = document.getElementById('password').value;
+
+            // Login simulado
+            if (correo === 'paciente@email.com' && password === '12345') {
+                loginSection.style.display = 'none';
+                registroCitaSection.style.display = 'block';
+                panelCitasSection.style.display = 'block';
+            } else {
+                alert('Credenciales inválidas. Intenta con: paciente@email.com / 12345');
+            }
+        }
+
+        function agendarCita() {
             const nombre = document.getElementById('nombre').value;
             const especialidad = document.getElementById('especialidad').value;
             const medico = document.getElementById('medico').value;
@@ -63,10 +101,11 @@
                     <strong>Hora:</strong> ${hora}<br>
                     <strong>Estado:</strong> Confirmada
                 </div>`;
-
             listaCitas.innerHTML += citaHTML;
-            formulario.reset();
-        });
+            document.getElementById('nombre').value = '';
+            document.getElementById('fecha').value = '';
+            document.getElementById('hora').value = '';
+        }
     </script>
 </body>
 </html>
